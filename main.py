@@ -3,6 +3,7 @@ import openai
 import json
 from pathlib import Path
 
+
 def main():
     apikey = os.environ["INPUT_APIKEY"]
     input_files = os.environ["INPUT_FILES"]
@@ -15,19 +16,30 @@ def main():
     print("Requesting code reviews for files:", files)
     code_reviews = get_code_review(files)
     summary = get_code_review_summary(code_reviews)
-    print(f"::set-output name=codeReview::{summary}")
+    print(f"echo codeReview=\"{summary}\" >> $GITHUB_STATE")
 
 
 def get_code_review(files):
     code_reviews = {}
     for file in files:
-        code_review = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": generate_message(file)}])
+        code_review = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", messages=[{"role": "user",
+                                              "content": generate_message(file)
+                                              }])
         code_reviews[file] = code_review.choices[0].message.content
     return code_reviews
 
+
 def get_code_review_summary(code_reviews):
-    msg = "Generate summary of multiple code reviews. Input is in JSON format where the key is file name and value is code review. Output should be in Markdown format.\n\n%s" % json.dumps(code_reviews)
-    return openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": msg}])
+    msg = """Generate summary of multiple code reviews. 
+    Input is in JSON format where the key is file
+      name and value is code review. 
+      Output should be in Markdown format.\n\n%s""" % json.dumps(
+        code_reviews)
+
+    return openai.ChatCompletion.create(model="gpt-3.5-turbo",
+                                        messages=[{"role": "user",
+                                                   "content": msg}])
 
 
 def generate_message(file):
