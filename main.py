@@ -7,6 +7,8 @@ from pathlib import Path
 def main():
     apikey = os.environ["INPUT_APIKEY"]
     input_files = os.environ["INPUT_FILES"]
+    print("Plain files input", input_files)
+
     files = [i.replace('"', "").replace("'", "")
              for i in input_files.split(",")]
     if not files or len(files) == 0:
@@ -17,7 +19,7 @@ def main():
     print("Requesting code reviews for files:", files)
 
     code_reviews = get_code_review(files)
-    summary = get_code_review_summary(code_reviews)
+    summary = get_code_review_summary(code_reviews).replace('"', '\\"')
     print(f"echo codeReview=\"{summary}\" >> $GITHUB_STATE")
 
 
@@ -39,9 +41,10 @@ def get_code_review_summary(code_reviews):
       Output should be in Markdown format.\n\n%s""" % json.dumps(
         code_reviews)
 
-    return openai.ChatCompletion.create(model="gpt-3.5-turbo",
-                                        messages=[{"role": "user",
-                                                   "content": msg}])
+    summary = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+                                           messages=[{"role": "user",
+                                                      "content": msg}])
+    return summary.choices[0].message.content
 
 
 def generate_message(file_path):
