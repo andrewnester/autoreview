@@ -45,8 +45,8 @@ def get_code_review(files):
 def get_code_review_summary(code_reviews):
     msg = """Generate summary code improvement based on multiple code reviews.
     Input is in JSON format where the key is file
-      name and value is code review.
-      Output should be in Markdown format.\n\n%s""" % json.dumps(
+      name and value is code review. 
+      Output should be in Markdown format and include file names next to suggestions. Also include code recommendations in the same message\n\n%s""" % json.dumps(
         code_reviews)
 
     summary = openai.ChatCompletion.create(model="gpt-3.5-turbo",
