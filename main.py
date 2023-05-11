@@ -1,6 +1,7 @@
 import os
 import openai
 import json
+import uuid
 from pathlib import Path
 
 
@@ -19,10 +20,15 @@ def main():
 
     code_reviews = get_code_review(files)
     summary = get_code_review_summary(code_reviews).replace('"', '\\"')
-    print("echo 'codeReview<<EOF' >> \"$GITHUB_OUTPUT\"")
-    for line in summary.splitlines():
-        print(f"echo \"${line}\" >> \"$GITHUB_OUTPUT\"")
-    print("echo 'EOF' >> \"$GITHUB_OUTPUT\"")
+    set_multiline_output("codeReview", summary)
+
+
+def set_multiline_output(name, value):
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        delimiter = uuid.uuid1()
+        print(f'{name}<<{delimiter}', file=fh)
+        print(value, file=fh)
+        print(delimiter, file=fh)
 
 
 def get_code_review(files):
