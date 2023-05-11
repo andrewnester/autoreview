@@ -15,7 +15,7 @@ def main():
         return
 
     openai.api_key = apikey
-    print("Requesting code reviews for files:", files)
+    print("Requesting code reviews for:", files)
 
     code_reviews = get_code_review(files)
     summary = get_code_review_summary(code_reviews).replace('"', '\\"')
