@@ -12,9 +12,10 @@ jobs:
           PATTERNS: |
             **/*.py
       - uses: andrewnester/autoreview@master
+        id: autoreview
         with:
           apiKey: ${{ secrets.OpenAIKey }}
           files: ${{ env.GIT_DIFF }}
       - uses: mshick/add-pr-comment@v2
         with:
-          message: ${{ steps.selftest.outputs.codeReview }}
+          message: ${{ steps.autoreview.outputs.codeReview }}
