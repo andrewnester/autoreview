@@ -19,7 +19,10 @@ def main():
 
     code_reviews = get_code_review(files)
     summary = get_code_review_summary(code_reviews).replace('"', '\\"')
-    print(f"echo codeReview=\"{summary}\" >> $GITHUB_OUTPUT")
+    print("echo 'codeReview=<<EOF' >> $GITHUB_OUTPUT")
+    for line in summary.splitlines():
+        print(f"echo \"${line}\" >> $GITHUB_OUTPUT")
+    print("echo 'EOF' >> $GITHUB_OUTPUT")
 
 
 def get_code_review(files):
