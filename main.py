@@ -19,7 +19,7 @@ def main():
 
     code_reviews = get_code_review(files)
     summary = get_code_review_summary(code_reviews).replace('"', '\\"')
-    print("echo 'codeReview=<<EOF' >> $GITHUB_OUTPUT")
+    print("echo 'codeReview<<EOF' >> $GITHUB_OUTPUT")
     for line in summary.splitlines():
         print(f"echo \"${line}\" >> $GITHUB_OUTPUT")
     print("echo 'EOF' >> $GITHUB_OUTPUT")
@@ -37,7 +37,7 @@ def get_code_review(files):
 
 
 def get_code_review_summary(code_reviews):
-    msg = """Generate summary of multiple code reviews.
+    msg = """Generate summary code improvement based on multiple code reviews.
     Input is in JSON format where the key is file
       name and value is code review.
       Output should be in Markdown format.\n\n%s""" % json.dumps(
