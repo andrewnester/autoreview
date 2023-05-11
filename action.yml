@@ -1,13 +1,14 @@
-name: "Python Container Action Template"
-description: "Get started with Python Container actions"
-author: "Jacob Tomlinson"
+name: "Auto Code Review"
+description: "ChatGPT reviews your code"
+author: "Andrew Nester"
 inputs:
-  myInput:
-    description: "Input to use"
-    default: "world"
+  apiKey:
+    description: "ChatGPT API Key"
+  files:
+    description: "List of files to review"
 outputs:
-  myOutput:
-    description: "Output from the action"
+  codeReview:
+    description: "Generate code review"
 runs:
   using: "docker"
   image: "Dockerfile"
