@@ -7,13 +7,15 @@ from pathlib import Path
 def main():
     apikey = os.environ["INPUT_APIKEY"]
     input_files = os.environ["INPUT_FILES"]
-    files = [i for i in input_files.split(",")]
+    files = [i.replace('"', "").replace("'", "")
+             for i in input_files.split(",")]
     if not files or len(files) == 0:
         print("No files to review, skipping")
         return
 
     openai.api_key = apikey
     print("Requesting code reviews for files:", files)
+
     code_reviews = get_code_review(files)
     summary = get_code_review_summary(code_reviews)
     print(f"echo codeReview=\"{summary}\" >> $GITHUB_STATE")
@@ -31,9 +33,9 @@ def get_code_review(files):
 
 
 def get_code_review_summary(code_reviews):
-    msg = """Generate summary of multiple code reviews. 
+    msg = """Generate summary of multiple code reviews.
     Input is in JSON format where the key is file
-      name and value is code review. 
+      name and value is code review.
       Output should be in Markdown format.\n\n%s""" % json.dumps(
         code_reviews)
 
@@ -42,8 +44,8 @@ def get_code_review_summary(code_reviews):
                                                    "content": msg}])
 
 
-def generate_message(file):
-    file_content = Path(file).read_text()
+def generate_message(file_path):
+    file_content = Path(os.path.join(".", file_path)).read_text()
     return "Provide code review. The code to review below\n%s" % file_content
 
 
