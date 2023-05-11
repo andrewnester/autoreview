@@ -14,6 +14,7 @@ def main():
 
     openai.api_key = apikey
     print("Requesting code reviews for files:", files)
+
     code_reviews = get_code_review(files)
     summary = get_code_review_summary(code_reviews)
     print(f"echo codeReview=\"{summary}\" >> $GITHUB_STATE")
@@ -42,8 +43,8 @@ def get_code_review_summary(code_reviews):
                                                    "content": msg}])
 
 
-def generate_message(file):
-    file_content = Path(file).read_text()
+def generate_message(file_path):
+    file_content = Path(os.path.join(".", file_path)).read_text()
     return "Provide code review. The code to review below\n%s" % file_content
 
 
