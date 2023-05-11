@@ -16,9 +16,15 @@ jobs:
         with:
           apiKey: ${{ secrets.OpenAIKey }}
           files: ${{ env.GIT_DIFF }}
-      - name: Show output
+      - name: Test output
+        id: test
         run: | 
-          echo $GITHUB_OUTPUT
+          echo test=value >> $GITHUB_OUTPUT
+      - name: Check output 
+        run: |
+          ${{ steps.test.outputs.test }}
+          ${{ steps.autoreview.outputs.codeReview }}
+          
       - uses: mshick/add-pr-comment@v2
         with:
           message: | 
