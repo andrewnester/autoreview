@@ -31,9 +31,9 @@ def get_code_review(files):
 
 
 def get_code_review_summary(code_reviews):
-    msg = """Generate summary of multiple code reviews. 
+    msg = """Generate summary of multiple code reviews.
     Input is in JSON format where the key is file
-      name and value is code review. 
+      name and value is code review.
       Output should be in Markdown format.\n\n%s""" % json.dumps(
         code_reviews)
 
