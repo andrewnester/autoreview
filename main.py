@@ -7,7 +7,8 @@ from pathlib import Path
 def main():
     apikey = os.environ["INPUT_APIKEY"]
     input_files = os.environ["INPUT_FILES"]
-    files = [i.replace('"', "") for i in input_files.split(",")]
+    files = [i.replace('"', "").replace("'", "")
+             for i in input_files.split(",")]
     if not files or len(files) == 0:
         print("No files to review, skipping")
         return
