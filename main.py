@@ -7,7 +7,6 @@ from pathlib import Path
 def main():
     apikey = os.environ["INPUT_APIKEY"]
     input_files = os.environ["INPUT_FILES"]
-    print("Plain files input", input_files)
 
     files = [i.replace('"', "").replace("'", "")
              for i in input_files.split(",")]
