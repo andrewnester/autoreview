@@ -18,4 +18,5 @@ jobs:
           files: ${{ env.GIT_DIFF }}
       - uses: mshick/add-pr-comment@v2
         with:
-          message: ${{ steps.autoreview.outputs.codeReview }}
+          message: | 
+            ${{ steps.autoreview.outputs.codeReview }}

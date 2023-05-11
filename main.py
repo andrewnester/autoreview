@@ -19,7 +19,7 @@ def main():
 
     code_reviews = get_code_review(files)
     summary = get_code_review_summary(code_reviews).replace('"', '\\"')
-    print(f"echo codeReview=\"{summary}\" >> $GITHUB_STATE")
+    print(f"echo codeReview=\"{summary}\" >> $GITHUB_OUTPUT")
 
 
 def get_code_review(files):
