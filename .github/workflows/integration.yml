@@ -16,6 +16,9 @@ jobs:
         with:
           apiKey: ${{ secrets.OpenAIKey }}
           files: ${{ env.GIT_DIFF }}
+      - name: Show output
+        run: | 
+          echo $GITHUB_OUTPUT
       - uses: mshick/add-pr-comment@v2
         with:
           message: | 
