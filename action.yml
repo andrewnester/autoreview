@@ -1,6 +1,8 @@
 name: "Auto Code Review"
 description: "ChatGPT reviews your code"
 author: "Andrew Nester"
+icon: "code"
+color: "green"
 inputs:
   apiKey:
     description: "ChatGPT API Key"
