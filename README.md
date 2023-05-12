@@ -1,6 +1,10 @@
 # Auto Code Review by ChatGPT
 
-## Usage
+[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+
+#### See how it looks like 👀
+
+![](https://github.com/andrewnester/autoreview/assets/2969996/8201dbe9-b24b-493e-b575-e1d396f7b814)
 
 ### Example workflow
 
